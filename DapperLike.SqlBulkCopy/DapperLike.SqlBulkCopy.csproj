@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net451</TargetFrameworks>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>SqlBulkCopy wrapper with Dapper-like API</Description>
+    <Authors>Sergey Konkin</Authors>
+    <Copyright>Copyright (c) 2018 Sergey Konkin</Copyright>
+    <PackageTags>Dapper C# SqlServer Insert Batch Bulk BulkCopy SqlBulkCopy</PackageTags>
+    <PackageProjectUrl>https://github.com/sergeykonkin/DapperLike</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/sergeykonkin/DapperLike/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/sergeykonkin/DapperLike</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\DapperLike.SqlBulkCopy.xml</DocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  </ItemGroup>
+
+</Project>
