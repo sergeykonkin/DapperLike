@@ -39,12 +39,12 @@ namespace DapperLike
         {
             var columns = GetColumnNamesFromProps(typeof(T));
             table.Columns.AddRange(columns);
-            table.Rows.AddRange(data, ConvertToRow<T>);
+            table.Rows.AddRange(data, ConvertToRow);
         }
 
         private static DataColumn[] GetColumnNamesFromProps(Type type)
         {
-            return GetPropsWithCaching(type).Select(prop => new DataColumn(prop.Name, prop.PropertyType)).ToArray();
+            return GetPropsWithCaching(type).Select(ToDataColumn).ToArray();
         }
 
         private static object[] ConvertToRow<T>(T entity)
@@ -64,9 +64,23 @@ namespace DapperLike
             if (PropsCache.ContainsKey(type))
                 return PropsCache[type];
 
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(NotIngored).ToArray();
             PropsCache[type] = props;
             return props;
+        }
+
+        private static bool NotIngored(PropertyInfo prop)
+        {
+            if (prop.GetCustomAttribute<IgnoreAttribute>() != null)
+                return false;
+
+            return true;
+        }
+
+        private static DataColumn ToDataColumn(PropertyInfo prop)
+        {
+            var name = prop.GetCustomAttribute<ColumnAttribute>()?.Name ?? prop.Name;
+            return new DataColumn(name, prop.PropertyType);
         }
     }
 }

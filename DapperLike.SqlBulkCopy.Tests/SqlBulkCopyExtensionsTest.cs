@@ -117,6 +117,45 @@ namespace DapperLike.SqlBulkCopy.Tests
         }
 
         [Test(TestOf = typeof(SqlBulkCopyExtensions))]
+        [TestCase(false, TestName = "BulkInsert should respect [Column] and [Ignore] attribute")]
+        [TestCase(true, TestName = "BulkInsertAsync should respect [Column] and [Ignore] attribute")]
+        public void BulkInsert__TypeWithColumnAndIgnoreAttrsPassed__MappedToTableAndInserted(bool async)
+        {
+            Name.Gender ConvertGender(bool boolean) => boolean ? Name.Gender.Male : Name.Gender.Female;
+
+            // Arrange
+            List<UserWithAttrs> data = new Faker<UserWithAttrs>()
+                .RuleFor(u => u.IsMale, (f, u) => f.Random.Bool())
+                .RuleFor(u => u.FirstName, (f, u) => f.Name.FirstName(ConvertGender(u.IsMale)))
+                .RuleFor(u => u.LastName, (f, u) => f.Name.FirstName(ConvertGender(u.IsMale)))
+                .RuleFor(u => u.Age, (f, u) => f.Random.Number(18, 99))
+                .Generate(1000);
+
+            // Act
+            if (async)
+                _connection.BulkInsertAsync(data, "User", commandTimeout: 10).GetAwaiter().GetResult();
+            else
+                _connection.BulkInsert(data, "User", commandTimeout: 10);
+
+            List<UserWithAttrs> inserted = _connection
+                .Query<User>("SELECT * FROM [User]")
+                .AsEnumerable()
+                .Select(u => new UserWithAttrs
+                {
+                    Id = u.Id,
+                    IsMale = u.Gender,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Age = u.Age
+                })
+                .ToList();
+
+            // Assert
+            Assert.IsTrue(inserted.All(u => u.Id != 0));
+            Assert.IsTrue(data.SequenceEqual(inserted, new UserWithAttrsComparer()));
+        }
+
+        [Test(TestOf = typeof(SqlBulkCopyExtensions))]
         [TestCase(false, TestName = "BulkInsert should throw if null connection argument is passed")]
         [TestCase(true, TestName = "BulkInsertAsync should throw if null connection argument is passed")]
         public void BulkInsert__NullConnectionPassed__ArgumentNullExceptionThrown(bool async)
