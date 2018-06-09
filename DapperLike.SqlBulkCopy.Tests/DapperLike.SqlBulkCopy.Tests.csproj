@@ -18,4 +18,8 @@
     <ProjectReference Include="..\DapperLike.SqlBulkCopy\DapperLike.SqlBulkCopy.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+
 </Project>

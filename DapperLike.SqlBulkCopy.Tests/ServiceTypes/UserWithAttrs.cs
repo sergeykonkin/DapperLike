@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DapperLike.SqlBulkCopy.Tests
 {
     public class UserWithAttrs
@@ -10,7 +12,7 @@ namespace DapperLike.SqlBulkCopy.Tests
         [Column("Gender")]
         public bool IsMale { get; set; }
 
-        [Ignore]
+        [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
     }
 }

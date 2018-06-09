@@ -117,9 +117,9 @@ namespace DapperLike.SqlBulkCopy.Tests
         }
 
         [Test(TestOf = typeof(SqlBulkCopyExtensions))]
-        [TestCase(false, TestName = "BulkInsert should respect [Column] and [Ignore] attribute")]
-        [TestCase(true, TestName = "BulkInsertAsync should respect [Column] and [Ignore] attribute")]
-        public void BulkInsert__TypeWithColumnAndIgnoreAttrsPassed__MappedToTableAndInserted(bool async)
+        [TestCase(false, TestName = "BulkInsert should respect [Column] and [NotMapped] attribute")]
+        [TestCase(true, TestName = "BulkInsertAsync should respect [Column] and [NotMapped] attribute")]
+        public void BulkInsert__TypeWithColumnAndNotMappedAttrsPassed__MappedToTableAndInserted(bool async)
         {
             Name.Gender ConvertGender(bool boolean) => boolean ? Name.Gender.Male : Name.Gender.Female;
 
