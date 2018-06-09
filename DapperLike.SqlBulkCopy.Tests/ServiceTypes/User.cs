@@ -1,4 +1,4 @@
-namespace DapperLike.SqlBulkCopy.Tests
+﻿namespace DapperLike.SqlBulkCopy.Tests
 {
     public class User
     {

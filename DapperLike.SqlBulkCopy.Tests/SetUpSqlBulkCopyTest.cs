@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using Dapper;
 using NUnit.Framework;
 using RimDev.Automation.Sql;

@@ -1,4 +1,4 @@
-## SqlBulkCopy wrapper with Dapper-like API
+﻿## SqlBulkCopy wrapper with Dapper-like API
 [![Build status](https://img.shields.io/vso/build/sergeykonkin/3644fe60-3b2d-4f91-89a8-daa64fbdaf83/14.svg)]()
 [![NuGet](https://img.shields.io/nuget/v/DapperLike.SqlBulkCopy.svg)](https://www.nuget.org/packages/DapperLike.SqlBulkCopy)
 
