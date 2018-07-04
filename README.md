@@ -1,5 +1,5 @@
 ﻿## SqlBulkCopy wrapper with Dapper-like API
-[![Build status](https://img.shields.io/vso/build/sergeykonkin/3644fe60-3b2d-4f91-89a8-daa64fbdaf83/14.svg)]()
+[![Build status](https://img.shields.io/vso/build/sergeykonkin/e640aa5e-254c-4469-8857-a4e79ac456ab/16.svg)]()
 [![NuGet](https://img.shields.io/nuget/v/DapperLike.SqlBulkCopy.svg)](https://www.nuget.org/packages/DapperLike.SqlBulkCopy)
 
 This library wraps [SqlBulkCopy](https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlbulkcopy.aspx) class with [Dapper](https://github.com/StackExchange/Dapper)-like API. It provides extension methods for `IDbConnection` (just like Dapper do), but will only work for `SqlConnection` (for obvious reasons).
