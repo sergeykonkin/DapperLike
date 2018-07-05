@@ -65,7 +65,7 @@ namespace DapperLike
             SqlBulkCopy sqlBulkCopy = GetSqlBulkCopy(sqlConnection, sqlTransaction, options, commandTimeout, table, tableName);
             using (sqlBulkCopy)
             {
-                await sqlBulkCopy.WriteToServerAsync(table);
+                await sqlBulkCopy.WriteToServerAsync(table).ConfigureAwait(false);
             }
         }
     }
