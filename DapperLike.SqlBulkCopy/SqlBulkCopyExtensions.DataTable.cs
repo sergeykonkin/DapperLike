@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -49,14 +48,6 @@ namespace DapperLike
             }
 
             return result;
-        }
-
-        private static bool NotIngored(PropertyInfo prop)
-        {
-            if (prop.GetCustomAttribute<NotMappedAttribute>() != null)
-                return false;
-
-            return true;
         }
 
         private static DataColumn ToDataColumn(Tuple<MemberInfo, string> tuple)

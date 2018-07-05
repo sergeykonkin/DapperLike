@@ -62,6 +62,7 @@ namespace DapperLike
             _tableNameCache[type] = name;
             return name;
         }
+
         public static object GetValue(this MemberInfo memberInfo, object obj)
         {
             switch (memberInfo.MemberType)
