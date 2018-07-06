@@ -156,8 +156,8 @@ namespace DapperLike.SqlBulkCopy.Tests
         }
 
         [Test(TestOf = typeof(SqlBulkCopyExtensions))]
-        [TestCase(false, TestName = "BulkInsert should reopen closed connection and reclose it afterwards")]
-        [TestCase(true, TestName = "BulkInsertAsync should reopen closed connection and reclose it afterwards")]
+        [TestCase(false, TestName = "BulkInsert should reopen closed connection and close it afterward")]
+        [TestCase(true, TestName = "BulkInsertAsync should reopen closed connection and close it afterward")]
         public void BulkInsert__ClosedConnection__ShouldReopenAndReclose(bool async)
         {
             // Arrange
