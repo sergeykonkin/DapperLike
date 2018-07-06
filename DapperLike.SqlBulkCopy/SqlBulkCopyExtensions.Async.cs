@@ -65,7 +65,16 @@ namespace DapperLike
             SqlBulkCopy sqlBulkCopy = GetSqlBulkCopy(sqlConnection, sqlTransaction, options, commandTimeout, table, tableName);
             using (sqlBulkCopy)
             {
-                await sqlBulkCopy.WriteToServerAsync(table).ConfigureAwait(false);
+                bool wasClosed = sqlConnection.State == ConnectionState.Closed;
+                try
+                {
+                    if (wasClosed) sqlConnection.Open();
+                    await sqlBulkCopy.WriteToServerAsync(table).ConfigureAwait(false);
+                }
+                finally
+                {
+                    if (wasClosed) sqlConnection.Close();
+                }
             }
         }
     }

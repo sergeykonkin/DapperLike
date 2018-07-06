@@ -156,6 +156,27 @@ namespace DapperLike.SqlBulkCopy.Tests
         }
 
         [Test(TestOf = typeof(SqlBulkCopyExtensions))]
+        [TestCase(false, TestName = "BulkInsert should reopen closed connection and reclose it afterwards")]
+        [TestCase(true, TestName = "BulkInsertAsync should reopen closed connection and reclose it afterwards")]
+        public void BulkInsert__ClosedConnection__ShouldReopenAndReclose(bool async)
+        {
+            // Arrange
+            var conn = Env.Db.OpenConnection();
+            conn.Close();
+            var data = new byte[10];
+            new Random().NextBytes(data);
+
+            // Act
+            if (async)
+                _connection.BulkInsertAsync(new [] {data}, "Data", "Blob", commandTimeout: 10).GetAwaiter().GetResult();
+            else
+                _connection.BulkInsert(new [] {data},  "Data", "Blob", commandTimeout: 10);
+
+            // Assert
+            Assert.AreEqual(ConnectionState.Closed, conn.State);
+        }
+
+        [Test(TestOf = typeof(SqlBulkCopyExtensions))]
         [TestCase(false, TestName = "BulkInsert should throw if null connection argument is passed")]
         [TestCase(true, TestName = "BulkInsertAsync should throw if null connection argument is passed")]
         public void BulkInsert__NullConnectionPassed__ArgumentNullExceptionThrown(bool async)
