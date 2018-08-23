@@ -52,7 +52,10 @@ namespace DapperLike
 
         private static DataColumn ToDataColumn(Tuple<MemberInfo, string> tuple)
         {
-            return new DataColumn(tuple.Item2, tuple.Item1.GetMemberType());
+            var memberType = tuple.Item1.GetMemberType();
+            var nullableType = Nullable.GetUnderlyingType(memberType);
+
+            return new DataColumn(tuple.Item2, nullableType ?? memberType);
         }
     }
 }

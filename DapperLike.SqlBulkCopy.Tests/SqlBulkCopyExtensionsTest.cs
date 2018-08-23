@@ -177,6 +177,29 @@ namespace DapperLike.SqlBulkCopy.Tests
         }
 
         [Test(TestOf = typeof(SqlBulkCopyExtensions))]
+        [TestCase(false, TestName = "BulkInsert should support nullable columns")]
+        [TestCase(true, TestName = "BulkInsertAsync should support nullable columns")]
+        public void BulkInsert__TypeWithNullablePropertyUsed__ShoudNotThrow(bool async)
+        {
+            // Arrange
+            var data = new List<WithNullable>
+            {
+                new WithNullable {Id = 5, Data = null}
+            };
+
+            // Act && Assert
+            Assert.That(
+                () =>
+                {
+                    if (async)
+                        _connection.BulkInsertAsync(data).GetAwaiter().GetResult();
+                    else
+                        _connection.BulkInsert(data);
+                },
+                Throws.Nothing);
+        }
+
+        [Test(TestOf = typeof(SqlBulkCopyExtensions))]
         [TestCase(false, TestName = "BulkInsert should throw if null connection argument is passed")]
         [TestCase(true, TestName = "BulkInsertAsync should throw if null connection argument is passed")]
         public void BulkInsert__NullConnectionPassed__ArgumentNullExceptionThrown(bool async)

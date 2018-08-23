@@ -49,6 +49,11 @@ CREATE TABLE [Anon] (
     Bar int,
     Baz datetime2
 )
+
+CREATE TABLE [WithNullable] (
+    Id int NOT NULL,
+    Data int NULL,
+)
             ");
 
             return db;
