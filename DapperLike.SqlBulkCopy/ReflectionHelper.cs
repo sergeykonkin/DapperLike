@@ -9,8 +9,8 @@ namespace DapperLike
 {
     internal static class ReflectionHelper
     {
-        private static readonly IDictionary<Type, Tuple<MemberInfo, string>[]> _columnMapCache = new ConcurrentDictionary<Type, Tuple<MemberInfo, string>[]>();
-        private static readonly IDictionary<Type, string> _tableNameCache = new ConcurrentDictionary<Type, string>();
+        private static readonly ConcurrentDictionary<Type, Tuple<MemberInfo, string>[]> _columnMapCache = new ConcurrentDictionary<Type, Tuple<MemberInfo, string>[]>();
+        private static readonly ConcurrentDictionary<Type, string> _tableNameCache = new ConcurrentDictionary<Type, string>();
 
         public static Tuple<MemberInfo, string>[] GetColumnMap(Type type)
         {
@@ -35,7 +35,7 @@ namespace DapperLike
 
             var columnMap = GetColumnMapImpl(type);
 
-            _columnMapCache.Add(type, columnMap);
+            _columnMapCache.TryAdd(type, columnMap);
             return columnMap;
         }
 
@@ -59,7 +59,7 @@ namespace DapperLike
             }
 
             var name = GetTableNameImpl(type);
-            _tableNameCache[type] = name;
+            _tableNameCache.TryAdd(type, name);
             return name;
         }
 
